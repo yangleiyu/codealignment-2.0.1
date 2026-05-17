@@ -1,0 +1,454 @@
+{
+  "name": "codealignment",
+  "displayName": "Code Alignment",
+  "description": "Code alignment helps you present your code beautifully by aligning by delimiter. Supports Verilog/SystemVerilog, C#, JavaScript and more.",
+  "version": "1.1.0",
+  "publisher": "codealignment",
+  "icon": "media/CodeAlignment.png",
+  "license": "SEE LICENSE IN license.txt",
+  "homepage": "http://www.codealignment.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cpmcgrath/codealignment"
+  },
+  "engines": {
+    "vscode": "^1.82.0"
+  },
+  "categories": [
+    "Formatters",
+    "Other"
+  ],
+  "keywords": [
+    "align",
+    "alignment",
+    "formatting",
+    "code alignment",
+    "verilog",
+    "systemverilog",
+    "hdl"
+  ],
+  "activationEvents": [
+    "onLanguage"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "codealignment.alignBy",
+        "title": "Align by..."
+      },
+      {
+        "command": "codealignment.alignByEquals",
+        "title": "Align by equals (=)"
+      },
+      {
+        "command": "codealignment.alignByEqualsEquals",
+        "title": "Align by equals equals (==)"
+      },
+      {
+        "command": "codealignment.alignByMUnderscore",
+        "title": "Align by m_"
+      },
+      {
+        "command": "codealignment.alignByQuote",
+        "title": "Align by quote (\")"
+      },
+      {
+        "command": "codealignment.alignByPeriod",
+        "title": "Align by period (.)"
+      },
+      {
+        "command": "codealignment.alignBySpace",
+        "title": "Align by space"
+      },
+      {
+        "command": "codealignment.alignFromCaret",
+        "title": "Align from caret"
+      },
+      {
+        "command": "codealignment.alignByKey",
+        "title": "Align by key"
+      },
+      {
+        "command": "codealignment.showOptions",
+        "title": "Code Alignment: Options",
+        "icon": "$(gear)"
+      },
+      {
+        "command": "codealignment.vlAlignByNonBlocking",
+        "title": "VL: Align by non-blocking assign (<==)",
+        "icon": "$(symbol-operator)"
+      },
+      {
+        "command": "codealignment.vlAlignByPortDecl",
+        "title": "VL: Align port declarations (input/output)",
+        "icon": "$(symbol-interface)"
+      },
+      {
+        "command": "codealignment.vlAlignBySignalDecl",
+        "title": "VL: Align signal bit-width ([7:0])",
+        "icon": "$(symbol-field)"
+      },
+      {
+        "command": "codealignment.vlAlignByInstance",
+        "title": "VL: Align module instances (.port)",
+        "icon": "$(symbol-class)"
+      },
+      {
+        "command": "codealignment.vlAlignByComment",
+        "title": "VL: Align inline comments (//)",
+        "icon": "$(comment)"
+      },
+      {
+        "command": "codealignment.vlAlignByAssign",
+        "title": "VL: Align assign statements",
+        "icon": "$(debug-line-by-line)"
+      },
+      {
+        "command": "codealignment.vlAlignByCase",
+        "title": "VL: Align case items (:)",
+        "icon": "$(symbol-enum)"
+      },
+      {
+        "command": "codealignment.vlAlignByEquals",
+        "title": "VL: Align blocking assigns (=, add space)",
+        "icon": "$(symbol-value)"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "codealignment.alignBy",
+        "key": "ctrl+shift+=",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "codealignment.alignByKey",
+        "key": "ctrl+=",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "codealignment.alignByEquals",
+        "key": "ctrl+shift+1",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "codealignment.alignByEqualsEquals",
+        "key": "ctrl+shift+2",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "codealignment.alignByMUnderscore",
+        "key": "ctrl+shift+3",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "codealignment.alignByQuote",
+        "key": "ctrl+shift+4",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "codealignment.alignByPeriod",
+        "key": "ctrl+shift+5",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "codealignment.alignBySpace",
+        "key": "ctrl+shift+6",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "codealignment.alignFromCaret",
+        "key": "ctrl+shift+7",
+        "when": "editorTextFocus"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "codealignment.alignBy",
+          "group": "codealignment@1"
+        },
+        {
+          "command": "codealignment.alignByEquals",
+          "group": "codealignment@2"
+        },
+        {
+          "command": "codealignment.alignByEqualsEquals",
+          "group": "codealignment@2"
+        },
+        {
+          "command": "codealignment.alignByMUnderscore",
+          "group": "codealignment@2"
+        },
+        {
+          "command": "codealignment.alignByQuote",
+          "group": "codealignment@2"
+        },
+        {
+          "command": "codealignment.alignByPeriod",
+          "group": "codealignment@2"
+        },
+        {
+          "command": "codealignment.alignBySpace",
+          "group": "codealignment@2"
+        },
+        {
+          "command": "codealignment.alignFromCaret",
+          "group": "codealignment@3"
+        },
+        {
+          "command": "codealignment.alignByKey",
+          "group": "codealignment@4"
+        },
+        {
+          "submenu": "codealignment.vlSubmenu",
+          "group": "codealignment@6"
+        },
+        {
+          "command": "codealignment.showOptions",
+          "group": "codealignment@9"
+        }
+      ],
+      "codealignment.vlSubmenu": [
+        {
+          "command": "codealignment.vlAlignByNonBlocking",
+          "group": "codealignment_vl@1"
+        },
+        {
+          "command": "codealignment.vlAlignByEquals",
+          "group": "codealignment_vl@2"
+        },
+        {
+          "command": "codealignment.vlAlignByPortDecl",
+          "group": "codealignment_vl@3"
+        },
+        {
+          "command": "codealignment.vlAlignBySignalDecl",
+          "group": "codealignment_vl@4"
+        },
+        {
+          "command": "codealignment.vlAlignByInstance",
+          "group": "codealignment_vl@5"
+        },
+        {
+          "command": "codealignment.vlAlignByAssign",
+          "group": "codealignment_vl@6"
+        },
+        {
+          "command": "codealignment.vlAlignByCase",
+          "group": "codealignment_vl@7"
+        },
+        {
+          "command": "codealignment.vlAlignByComment",
+          "group": "codealignment_vl@8"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "codealignment.alignBy",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "codealignment.alignByEquals",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "codealignment.alignByEqualsEquals",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "codealignment.alignByMUnderscore",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "codealignment.alignByQuote",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "codealignment.alignByPeriod",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "codealignment.alignBySpace",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "codealignment.alignFromCaret",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "codealignment.alignByKey",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "codealignment.showOptions"
+        },
+        {
+          "command": "codealignment.vlAlignByNonBlocking",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "codealignment.vlAlignByPortDecl",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "codealignment.vlAlignBySignalDecl",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "codealignment.vlAlignByInstance",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "codealignment.vlAlignByComment",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "codealignment.vlAlignByAssign",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "codealignment.vlAlignByCase",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "codealignment.vlAlignByEquals",
+          "when": "editorTextFocus"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "codealignment.vlSubmenu",
+        "label": "Verilog/SV Align"
+      }
+    ],
+    "configuration": {
+      "title": "Code Alignment",
+      "properties": {
+        "codealignment.shortcuts": {
+          "type": "array",
+          "default": [
+            {
+              "value": 187,
+              "alignment": "=",
+              "language": null,
+              "alignFromCaret": false,
+              "useRegex": false,
+              "addSpace": false
+            },
+            {
+              "value": 32,
+              "alignment": " ",
+              "language": null,
+              "alignFromCaret": false,
+              "useRegex": false,
+              "addSpace": false
+            },
+            {
+              "value": 190,
+              "alignment": ".",
+              "language": null,
+              "alignFromCaret": false,
+              "useRegex": false,
+              "addSpace": false
+            },
+            {
+              "value": 222,
+              "alignment": "\"",
+              "language": null,
+              "alignFromCaret": false,
+              "useRegex": false,
+              "addSpace": false
+            },
+            {
+              "value": 77,
+              "alignment": "m_",
+              "language": null,
+              "alignFromCaret": false,
+              "useRegex": false,
+              "addSpace": false
+            }
+          ],
+          "description": "Keyboard shortcuts for Align by key mode. Each shortcut defines a key, alignment string, and options."
+        },
+        "codealignment.xmlTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            ".xml",
+            ".xaml",
+            ".cshtml",
+            ".aspx",
+            ".ascx",
+            ".master",
+            ".html",
+            ".htm",
+            ".svg",
+            ".xslt",
+            ".config",
+            ".resx",
+            ".targets",
+            ".xul",
+            ".vcproj",
+            ".csproj",
+            ".vbproj"
+          ],
+          "description": "File types to treat as XML (use XML scope selector for alignment)."
+        },
+        "codealignment.vlTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            ".v",
+            ".sv",
+            ".vh",
+            ".svh",
+            ".vhd",
+            ".svp"
+          ],
+          "description": "Verilog/SystemVerilog file extensions. These files will use the Verilog scope selector for smart block-boundary detection."
+        },
+        "codealignment.scopeSelectorLineValues": {
+          "type": "string",
+          "default": "",
+          "description": "Space-separated values that match blank lines for scope selection."
+        },
+        "codealignment.scopeSelectorLineEnds": {
+          "type": "string",
+          "default": "",
+          "description": "Space-separated patterns that match line endings for scope selection."
+        },
+        "codealignment.useIdeTabSettings": {
+          "type": "boolean",
+          "default": true,
+          "description": "Use the IDE tab settings (tab size, insert spaces) when performing alignments."
+        },
+        "codealignment.delimiters": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Most recently used delimiter list."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.82.0",
+    "@vscode/vsce": "^3.9.1",
+    "typescript": "^5.2.0"
+  }
+}
