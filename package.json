@@ -1,7 +1,7 @@
 {
   "name": "codealignment",
   "displayName": "Code Alignment",
-  "description": "Code alignment helps you present your code beautifully by aligning by delimiter. Supports Verilog/SystemVerilog, C#, JavaScript and more.",
+  "description": "通过对齐分隔符美化代码格式，提升可读性。支持 Verilog/SystemVerilog 端口对齐、位宽对齐、实例化对齐等。快捷键：Ctrl+Shift+= 输入任意分隔符，Ctrl+Shift+1~6 快速对齐 =/==/m_/\"/./空格，Ctrl+= 按键交互对齐，右键菜单含 VL 对齐子菜单。详情见 README。",
   "version": "1.1.0",
   "publisher": "codealignment",
   "icon": "media/CodeAlignment.png",
