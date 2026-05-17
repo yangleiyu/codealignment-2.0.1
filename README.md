@@ -380,7 +380,4 @@ src/
 
 与原 Code Alignment 项目使用相同的开源许可证。
 
-## 项目链接
 
-- 官方网站：[http://www.codealignment.com](http://www.codealignment.com)
-- 原始项目：[https://github.com/cpmcgrath/codealignment](https://github.com/cpmcgrath/codealignment)
