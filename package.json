@@ -1,15 +1,12 @@
 {
   "name": "codealignment",
   "displayName": "Code Alignment",
-  "description": "通过对齐分隔符美化代码格式，提升可读性。支持 Verilog/SystemVerilog 端口对齐、位宽对齐、实例化对齐等。快捷键：Ctrl+Shift+= 输入任意分隔符，Ctrl+Shift+1~6 快速对齐 =/==/m_/\"/./空格，Ctrl+= 按键交互对齐，右键菜单含 VL 对齐子菜单。详情见 README。",
-  "version": "1.1.0",
+  "description": "JSON 配置驱动的代码对齐工具。在 settings.json 中自定义对齐分隔符，右键菜单实时同步更新。支持子菜单折叠（submenu: true）、Ctrl+Shift+1~9 快捷键、一键括号对齐、逗号和句点对齐、Verilog/SystemVerilog 端口对齐。",
+  "version": "2.0.1",
   "publisher": "codealignment",
-  "icon": "media/CodeAlignment.png",
-  "license": "SEE LICENSE IN license.txt",
-  "homepage": "http://www.codealignment.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/cpmcgrath/codealignment"
+    "url": "https://github.com/yangleiyu/codealignment-2.0.1.git"
   },
   "engines": {
     "vscode": "^1.82.0"
@@ -23,354 +20,464 @@
     "alignment",
     "formatting",
     "code alignment",
+    "json config",
     "verilog",
     "systemverilog",
-    "hdl"
+    "hdl",
+    "customizable"
   ],
   "activationEvents": [
-    "onLanguage"
+    "onStartupFinished"
   ],
   "main": "./out/extension.js",
   "contributes": {
+    "submenus": [
+      {
+        "id": "codealignment.alignSubmenu",
+        "label": "More Alignments"
+      }
+    ],
     "commands": [
       {
-        "command": "codealignment.alignBy",
-        "title": "Align by..."
+        "command": "codealignment.alignItem0",
+        "title": "#1  Align by ( )",
+        "icon": "$(bracket)"
       },
       {
-        "command": "codealignment.alignByEquals",
-        "title": "Align by equals (=)"
+        "command": "codealignment.alignItem1",
+        "title": "#2  Align by ;",
+        "icon": "$(symbol-semicolon)"
       },
       {
-        "command": "codealignment.alignByEqualsEquals",
-        "title": "Align by equals equals (==)"
+        "command": "codealignment.alignItem2",
+        "title": "#3  Align by ,",
+        "icon": "$(symbol-misc)"
       },
       {
-        "command": "codealignment.alignByMUnderscore",
-        "title": "Align by m_"
+        "command": "codealignment.alignItem3",
+        "title": "#4  Align by .",
+        "icon": "$(symbol-misc)"
       },
       {
-        "command": "codealignment.alignByQuote",
-        "title": "Align by quote (\")"
-      },
-      {
-        "command": "codealignment.alignByPeriod",
-        "title": "Align by period (.)"
-      },
-      {
-        "command": "codealignment.alignBySpace",
-        "title": "Align by space"
-      },
-      {
-        "command": "codealignment.alignFromCaret",
-        "title": "Align from caret"
-      },
-      {
-        "command": "codealignment.alignByKey",
-        "title": "Align by key"
-      },
-      {
-        "command": "codealignment.showOptions",
-        "title": "Code Alignment: Options",
-        "icon": "$(gear)"
-      },
-      {
-        "command": "codealignment.vlAlignByNonBlocking",
-        "title": "VL: Align by non-blocking assign (<==)",
+        "command": "codealignment.alignItem4",
+        "title": "#5  Align by =",
         "icon": "$(symbol-operator)"
       },
       {
-        "command": "codealignment.vlAlignByPortDecl",
-        "title": "VL: Align port declarations (input/output)",
-        "icon": "$(symbol-interface)"
+        "command": "codealignment.alignItem5",
+        "title": "#6  Align by <=",
+        "icon": "$(symbol-operator)"
       },
       {
-        "command": "codealignment.vlAlignBySignalDecl",
-        "title": "VL: Align signal bit-width ([7:0])",
-        "icon": "$(symbol-field)"
-      },
-      {
-        "command": "codealignment.vlAlignByInstance",
-        "title": "VL: Align module instances (.port)",
-        "icon": "$(symbol-class)"
-      },
-      {
-        "command": "codealignment.vlAlignByComment",
-        "title": "VL: Align inline comments (//)",
+        "command": "codealignment.alignItem6",
+        "title": "#7  Align by //",
         "icon": "$(comment)"
       },
       {
-        "command": "codealignment.vlAlignByAssign",
-        "title": "VL: Align assign statements",
-        "icon": "$(debug-line-by-line)"
+        "command": "codealignment.alignItem7",
+        "title": "#8  Align by [",
+        "icon": "$(bracket)"
       },
       {
-        "command": "codealignment.vlAlignByCase",
-        "title": "VL: Align case items (:)",
-        "icon": "$(symbol-enum)"
+        "command": "codealignment.alignItem8",
+        "title": "#9  Align by ]",
+        "icon": "$(bracket)"
       },
       {
-        "command": "codealignment.vlAlignByEquals",
-        "title": "VL: Align blocking assigns (=, add space)",
-        "icon": "$(symbol-value)"
+        "command": "codealignment.alignItem9",
+        "title": "#10 Align by reg",
+        "icon": "$(symbol-keyword)"
+      },
+      {
+        "command": "codealignment.alignItem10",
+        "title": "#11 Align by wire",
+        "icon": "$(symbol-keyword)"
+      },
+      {
+        "command": "codealignment.alignItem11",
+        "title": "#12 Align by input",
+        "icon": "$(symbol-interface)"
+      },
+      {
+        "command": "codealignment.alignItem12",
+        "title": "#13 Align by output",
+        "icon": "$(symbol-interface)"
+      },
+      {
+        "command": "codealignment.alignItem13",
+        "title": "#14 Align (custom)",
+        "icon": "$(symbol-misc)"
+      },
+      {
+        "command": "codealignment.alignItem14",
+        "title": "#15 Align (custom)",
+        "icon": "$(symbol-misc)"
+      },
+      {
+        "command": "codealignment.customAlign",
+        "title": "Align by Custom Delimiter...",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "codealignment.configureAlignments",
+        "title": "Configure Alignments...",
+        "icon": "$(gear)"
+      },
+      {
+        "command": "codealignment.restoreDefaultAlignments",
+        "title": "Restore Default Alignments",
+        "icon": "$(debug-restart)"
       }
     ],
     "keybindings": [
       {
-        "command": "codealignment.alignBy",
-        "key": "ctrl+shift+=",
-        "when": "editorTextFocus"
-      },
-      {
-        "command": "codealignment.alignByKey",
-        "key": "ctrl+=",
-        "when": "editorTextFocus"
-      },
-      {
-        "command": "codealignment.alignByEquals",
+        "command": "codealignment.alignItem0",
         "key": "ctrl+shift+1",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && codealignment.hasAlignItem0"
       },
       {
-        "command": "codealignment.alignByEqualsEquals",
+        "command": "codealignment.alignItem1",
         "key": "ctrl+shift+2",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && codealignment.hasAlignItem1"
       },
       {
-        "command": "codealignment.alignByMUnderscore",
+        "command": "codealignment.alignItem2",
         "key": "ctrl+shift+3",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && codealignment.hasAlignItem2"
       },
       {
-        "command": "codealignment.alignByQuote",
+        "command": "codealignment.alignItem3",
         "key": "ctrl+shift+4",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && codealignment.hasAlignItem3"
       },
       {
-        "command": "codealignment.alignByPeriod",
+        "command": "codealignment.alignItem4",
         "key": "ctrl+shift+5",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && codealignment.hasAlignItem4"
       },
       {
-        "command": "codealignment.alignBySpace",
+        "command": "codealignment.alignItem5",
         "key": "ctrl+shift+6",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && codealignment.hasAlignItem5"
       },
       {
-        "command": "codealignment.alignFromCaret",
+        "command": "codealignment.alignItem6",
         "key": "ctrl+shift+7",
+        "when": "editorTextFocus && codealignment.hasAlignItem6"
+      },
+      {
+        "command": "codealignment.alignItem7",
+        "key": "ctrl+shift+8",
+        "when": "editorTextFocus && codealignment.hasAlignItem7"
+      },
+      {
+        "command": "codealignment.alignItem8",
+        "key": "ctrl+shift+9",
+        "when": "editorTextFocus && codealignment.hasAlignItem8"
+      },
+      {
+        "command": "codealignment.customAlign",
+        "key": "ctrl+shift+=",
         "when": "editorTextFocus"
       }
     ],
     "menus": {
       "editor/context": [
         {
-          "command": "codealignment.alignBy",
+          "command": "codealignment.customAlign",
           "group": "codealignment@1"
         },
         {
-          "command": "codealignment.alignByEquals",
+          "command": "codealignment.alignItem0",
+          "when": "codealignment.hasTopItem0",
           "group": "codealignment@2"
         },
         {
-          "command": "codealignment.alignByEqualsEquals",
-          "group": "codealignment@2"
-        },
-        {
-          "command": "codealignment.alignByMUnderscore",
-          "group": "codealignment@2"
-        },
-        {
-          "command": "codealignment.alignByQuote",
-          "group": "codealignment@2"
-        },
-        {
-          "command": "codealignment.alignByPeriod",
-          "group": "codealignment@2"
-        },
-        {
-          "command": "codealignment.alignBySpace",
-          "group": "codealignment@2"
-        },
-        {
-          "command": "codealignment.alignFromCaret",
+          "command": "codealignment.alignItem1",
+          "when": "codealignment.hasTopItem1",
           "group": "codealignment@3"
         },
         {
-          "command": "codealignment.alignByKey",
+          "command": "codealignment.alignItem2",
+          "when": "codealignment.hasTopItem2",
           "group": "codealignment@4"
         },
         {
-          "submenu": "codealignment.vlSubmenu",
+          "command": "codealignment.alignItem3",
+          "when": "codealignment.hasTopItem3",
+          "group": "codealignment@5"
+        },
+        {
+          "command": "codealignment.alignItem4",
+          "when": "codealignment.hasTopItem4",
           "group": "codealignment@6"
         },
         {
-          "command": "codealignment.showOptions",
+          "command": "codealignment.alignItem5",
+          "when": "codealignment.hasTopItem5",
+          "group": "codealignment@7"
+        },
+        {
+          "command": "codealignment.alignItem6",
+          "when": "codealignment.hasTopItem6",
+          "group": "codealignment@8"
+        },
+        {
+          "command": "codealignment.alignItem7",
+          "when": "codealignment.hasTopItem7",
           "group": "codealignment@9"
+        },
+        {
+          "command": "codealignment.alignItem8",
+          "when": "codealignment.hasTopItem8",
+          "group": "codealignment@10"
+        },
+        {
+          "command": "codealignment.alignItem9",
+          "when": "codealignment.hasTopItem9",
+          "group": "codealignment@11"
+        },
+        {
+          "command": "codealignment.alignItem10",
+          "when": "codealignment.hasTopItem10",
+          "group": "codealignment@12"
+        },
+        {
+          "command": "codealignment.alignItem11",
+          "when": "codealignment.hasTopItem11",
+          "group": "codealignment@13"
+        },
+        {
+          "command": "codealignment.alignItem12",
+          "when": "codealignment.hasTopItem12",
+          "group": "codealignment@14"
+        },
+        {
+          "command": "codealignment.alignItem13",
+          "when": "codealignment.hasTopItem13",
+          "group": "codealignment@15"
+        },
+        {
+          "command": "codealignment.alignItem14",
+          "when": "codealignment.hasTopItem14",
+          "group": "codealignment@16"
+        },
+        {
+          "submenu": "codealignment.alignSubmenu",
+          "when": "codealignment.hasAlignmentSubmenu",
+          "group": "codealignment@20"
+        },
+        {
+          "command": "codealignment.configureAlignments",
+          "group": "codealignment@99"
         }
       ],
-      "codealignment.vlSubmenu": [
+    "codealignment.alignSubmenu": [
+      {
+        "command": "codealignment.alignItem0",
+        "when": "codealignment.hasSubItem0"
+      },
+      {
+        "command": "codealignment.alignItem1",
+        "when": "codealignment.hasSubItem1"
+      },
+      {
+        "command": "codealignment.alignItem2",
+        "when": "codealignment.hasSubItem2"
+      },
+      {
+        "command": "codealignment.alignItem3",
+        "when": "codealignment.hasSubItem3"
+      },
+      {
+        "command": "codealignment.alignItem4",
+        "when": "codealignment.hasSubItem4"
+      },
+      {
+        "command": "codealignment.alignItem5",
+        "when": "codealignment.hasSubItem5"
+      },
+      {
+        "command": "codealignment.alignItem6",
+        "when": "codealignment.hasSubItem6"
+      },
+      {
+        "command": "codealignment.alignItem7",
+        "when": "codealignment.hasSubItem7"
+      },
+      {
+        "command": "codealignment.alignItem8",
+        "when": "codealignment.hasSubItem8"
+      },
+      {
+        "command": "codealignment.alignItem9",
+        "when": "codealignment.hasSubItem9"
+      },
+      {
+        "command": "codealignment.alignItem10",
+        "when": "codealignment.hasSubItem10"
+      },
+      {
+        "command": "codealignment.alignItem11",
+        "when": "codealignment.hasSubItem11"
+      },
+      {
+        "command": "codealignment.alignItem12",
+        "when": "codealignment.hasSubItem12"
+      },
+      {
+        "command": "codealignment.alignItem13",
+        "when": "codealignment.hasSubItem13"
+      },
+      {
+        "command": "codealignment.alignItem14",
+        "when": "codealignment.hasSubItem14"
+      }
+    ],
+    "commandPalette": [
         {
-          "command": "codealignment.vlAlignByNonBlocking",
-          "group": "codealignment_vl@1"
+          "command": "codealignment.alignItem0",
+          "when": "editorTextFocus && codealignment.hasAlignItem0"
         },
         {
-          "command": "codealignment.vlAlignByEquals",
-          "group": "codealignment_vl@2"
+          "command": "codealignment.alignItem1",
+          "when": "editorTextFocus && codealignment.hasAlignItem1"
         },
         {
-          "command": "codealignment.vlAlignByPortDecl",
-          "group": "codealignment_vl@3"
+          "command": "codealignment.alignItem2",
+          "when": "editorTextFocus && codealignment.hasAlignItem2"
         },
         {
-          "command": "codealignment.vlAlignBySignalDecl",
-          "group": "codealignment_vl@4"
+          "command": "codealignment.alignItem3",
+          "when": "editorTextFocus && codealignment.hasAlignItem3"
         },
         {
-          "command": "codealignment.vlAlignByInstance",
-          "group": "codealignment_vl@5"
+          "command": "codealignment.alignItem4",
+          "when": "editorTextFocus && codealignment.hasAlignItem4"
         },
         {
-          "command": "codealignment.vlAlignByAssign",
-          "group": "codealignment_vl@6"
+          "command": "codealignment.alignItem5",
+          "when": "editorTextFocus && codealignment.hasAlignItem5"
         },
         {
-          "command": "codealignment.vlAlignByCase",
-          "group": "codealignment_vl@7"
+          "command": "codealignment.alignItem6",
+          "when": "editorTextFocus && codealignment.hasAlignItem6"
         },
         {
-          "command": "codealignment.vlAlignByComment",
-          "group": "codealignment_vl@8"
-        }
-      ],
-      "commandPalette": [
+          "command": "codealignment.alignItem7",
+          "when": "editorTextFocus && codealignment.hasAlignItem7"
+        },
         {
-          "command": "codealignment.alignBy",
+          "command": "codealignment.alignItem8",
+          "when": "editorTextFocus && codealignment.hasAlignItem8"
+        },
+        {
+          "command": "codealignment.alignItem9",
+          "when": "editorTextFocus && codealignment.hasAlignItem9"
+        },
+        {
+          "command": "codealignment.alignItem10",
+          "when": "editorTextFocus && codealignment.hasAlignItem10"
+        },
+        {
+          "command": "codealignment.alignItem11",
+          "when": "editorTextFocus && codealignment.hasAlignItem11"
+        },
+        {
+          "command": "codealignment.alignItem12",
+          "when": "editorTextFocus && codealignment.hasAlignItem12"
+        },
+        {
+          "command": "codealignment.alignItem13",
+          "when": "editorTextFocus && codealignment.hasAlignItem13"
+        },
+        {
+          "command": "codealignment.alignItem14",
+          "when": "editorTextFocus && codealignment.hasAlignItem14"
+        },
+        {
+          "command": "codealignment.customAlign",
           "when": "editorTextFocus"
         },
         {
-          "command": "codealignment.alignByEquals",
-          "when": "editorTextFocus"
+          "command": "codealignment.configureAlignments"
         },
         {
-          "command": "codealignment.alignByEqualsEquals",
-          "when": "editorTextFocus"
-        },
-        {
-          "command": "codealignment.alignByMUnderscore",
-          "when": "editorTextFocus"
-        },
-        {
-          "command": "codealignment.alignByQuote",
-          "when": "editorTextFocus"
-        },
-        {
-          "command": "codealignment.alignByPeriod",
-          "when": "editorTextFocus"
-        },
-        {
-          "command": "codealignment.alignBySpace",
-          "when": "editorTextFocus"
-        },
-        {
-          "command": "codealignment.alignFromCaret",
-          "when": "editorTextFocus"
-        },
-        {
-          "command": "codealignment.alignByKey",
-          "when": "editorTextFocus"
-        },
-        {
-          "command": "codealignment.showOptions"
-        },
-        {
-          "command": "codealignment.vlAlignByNonBlocking",
-          "when": "editorTextFocus"
-        },
-        {
-          "command": "codealignment.vlAlignByPortDecl",
-          "when": "editorTextFocus"
-        },
-        {
-          "command": "codealignment.vlAlignBySignalDecl",
-          "when": "editorTextFocus"
-        },
-        {
-          "command": "codealignment.vlAlignByInstance",
-          "when": "editorTextFocus"
-        },
-        {
-          "command": "codealignment.vlAlignByComment",
-          "when": "editorTextFocus"
-        },
-        {
-          "command": "codealignment.vlAlignByAssign",
-          "when": "editorTextFocus"
-        },
-        {
-          "command": "codealignment.vlAlignByCase",
-          "when": "editorTextFocus"
-        },
-        {
-          "command": "codealignment.vlAlignByEquals",
-          "when": "editorTextFocus"
+          "command": "codealignment.restoreDefaultAlignments"
         }
       ]
     },
-    "submenus": [
-      {
-        "id": "codealignment.vlSubmenu",
-        "label": "Verilog/SV Align"
-      }
-    ],
     "configuration": {
       "title": "Code Alignment",
       "properties": {
-        "codealignment.shortcuts": {
+        "codealignment.alignments": {
           "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "delimiter": {
+                "type": "string",
+                "title": "Delimiter",
+                "description": "The delimiter string to align by. Position in array determines #N: first item = #1, second = #2, etc. When set to '(', both '(' and ')' are aligned automatically."
+              },
+              "submenu": {
+                "type": "boolean",
+                "title": "Submenu",
+                "description": "When true, this item appears in the 'More Alignments' submenu instead of the main right-click menu. Helps keep the menu compact.",
+                "default": false
+              }
+            }
+          },
           "default": [
             {
-              "value": 187,
-              "alignment": "=",
-              "language": null,
-              "alignFromCaret": false,
-              "useRegex": false,
-              "addSpace": false
+              "delimiter": "("
             },
             {
-              "value": 32,
-              "alignment": " ",
-              "language": null,
-              "alignFromCaret": false,
-              "useRegex": false,
-              "addSpace": false
+              "delimiter": ";"
             },
             {
-              "value": 190,
-              "alignment": ".",
-              "language": null,
-              "alignFromCaret": false,
-              "useRegex": false,
-              "addSpace": false
+              "delimiter": ","
             },
             {
-              "value": 222,
-              "alignment": "\"",
-              "language": null,
-              "alignFromCaret": false,
-              "useRegex": false,
-              "addSpace": false
+              "delimiter": "."
             },
             {
-              "value": 77,
-              "alignment": "m_",
-              "language": null,
-              "alignFromCaret": false,
-              "useRegex": false,
-              "addSpace": false
+              "delimiter": "="
+            },
+            {
+              "delimiter": "<=",
+              "submenu": true
+            },
+            {
+              "delimiter": "//",
+              "submenu": true
+            },
+            {
+              "delimiter": "[",
+              "submenu": true
+            },
+            {
+              "delimiter": "]",
+              "submenu": true
+            },
+            {
+              "delimiter": "reg",
+              "submenu": true
+            },
+            {
+              "delimiter": "wire",
+              "submenu": true
+            },
+            {
+              "delimiter": "input",
+              "submenu": true
+            },
+            {
+              "delimiter": "output",
+              "submenu": true
             }
           ],
-          "description": "Keyboard shortcuts for Align by key mode. Each shortcut defines a key, alignment string, and options."
+          "description": "Alignment delimiter list (up to 15 items). Each item's position determines its #N number: item[0] → #1, item[1] → #2, etc. This #N appears in the right-click menu for easy cross-reference. The first 9 items are also bound to keyboard shortcuts Ctrl+Shift+1~9. When delimiter is '(', both '(' and ')' are aligned together. Set 'submenu: true' on an item to fold it into the 'More Alignments' submenu."
         },
         "codealignment.xmlTypes": {
           "type": "array",
@@ -427,14 +534,6 @@
           "type": "boolean",
           "default": true,
           "description": "Use the IDE tab settings (tab size, insert spaces) when performing alignments."
-        },
-        "codealignment.delimiters": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "default": [],
-          "description": "Most recently used delimiter list."
         }
       }
     }
