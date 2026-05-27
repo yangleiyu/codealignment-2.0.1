@@ -8,6 +8,10 @@
     "type": "git",
     "url": "https://github.com/yangleiyu/codealignment-2.0.1.git"
   },
+  "homepage": "https://github.com/yangleiyu/codealignment-2.0.1",
+  "bugs": {
+    "url": "https://github.com/yangleiyu/codealignment-2.0.1/issues"
+  },
   "engines": {
     "vscode": "^1.82.0"
   },

@@ -4,6 +4,8 @@
 
 支持 **Verilog / SystemVerilog** 端口对齐、一键括号对齐、自定义对齐，适用于任何编程语言。
 
+📦 GitHub 仓库：[https://github.com/yangleiyu/codealignment-2.0.1](https://github.com/yangleiyu/codealignment-2.0.1)
+
 ---
 
 ## 快速开始
